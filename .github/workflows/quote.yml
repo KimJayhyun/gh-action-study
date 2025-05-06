@@ -1,0 +1,41 @@
+name: Test Output Quote Behavior
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-output:
+    runs-on: ubuntu-latest
+    outputs:
+      with-quotes: ${{ steps.step_with_quotes.outputs.cache }}
+      without-quotes: ${{ steps.step_without_quotes.outputs.cache }}
+
+    steps:
+      - name: Step with quotes
+        id: step_with_quotes
+        run: |
+          echo "cache='false'" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Step without quotes
+        id: step_without_quotes
+        run: |
+          echo "cache=false" >> $GITHUB_OUTPUT
+        shell: bash
+
+  check-result:
+    needs: test-output
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print outputs
+        run: |
+          echo "With quotes: '${{ needs.test-output.outputs.with-quotes }}'"
+          echo "Without quotes: '${{ needs.test-output.outputs.without-quotes }}'"
+
+      - name: Compare with 'false'
+        if: needs.test-output.outputs.without-quotes == 'false'
+        run: echo "✅ without-quotes matched 'false'"
+
+      - name: Compare with 'false' (with quotes version)
+        if: needs.test-output.outputs.with-quotes == 'false'
+        run: echo "✅ with-quotes matched 'false'"
