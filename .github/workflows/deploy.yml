@@ -63,11 +63,11 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
-        run: echo "Deploying..."
-  information:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Run custom action
         uses: ./.github/actions/deploy-s3-javascript
+        env:
+          AWS_ACCESS_KEY_ID: rkskekfkakqktk
+          AWS_SECRET_ACCESS_KEY: fake-test-key
+        with:
+          bucket: gha-custom-action-hosting
+          dist-folder: ./dist
+          # bucket-region: us-east-2
