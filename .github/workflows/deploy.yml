@@ -63,7 +63,7 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
-        uses: ./.github/actions/deploy-s3-javascript
+        uses: ./.github/actions/deploy-s3-docker
         env:
           AWS_ACCESS_KEY_ID: rkskekfkakqktk
           AWS_SECRET_ACCESS_KEY: fake-test-key
