@@ -16,3 +16,6 @@ runs:
   # pre: 'pre.js'
   main: 'main.js'
   # post: 'post.js'
+outputs:
+  website-url:
+    description: 'The URL of the deployed website'
